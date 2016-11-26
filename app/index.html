@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home work. AngularJS</title>
+    <link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script src="vendor/moment/moment.js"></script>
+</head>
+
+<body ng-cloak>
+    <div class="container">
+        <div time-page></div time-page>
+        <div header-page></div>
+        <random-generate-page></random-generate-page>
+        <rank-page></rank-page>
+        <camel-case-task></camel-case-task>
+        <convert></convert>
+        <div form-create-task></div>
+        <all-tasks></all-tasks>
+    </div>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/ngstorage/0.3.6/ngStorage.min.js"></script>
+    <script src="feature/decorator.js"></script>
+    <script src="app.js"></script>
+    <script src="common/filters/common-filters.module.js"></script>
+    <script src="common/services/common-services.module.js"></script>
+    <script src="common/services/constants.services.js"></script>
+    <script src="common/services/values.services.js"></script>
+    <script src="common/common.module.js"></script>
+    <script src="feature/convert/feature-convert.module.js"></script>
+    <script src="feature/convert/convert.filter.js"></script>
+    <script src="feature/convert/convert.directive.js"></script>
+    <script src="feature/divide-string/feature-divide-string.module.js"></script>
+    <script src="feature/divide-string/divide-string.filter.js"></script>
+    <script src="feature/divide-string/camel-case.directive.js"></script>
+    <script src="feature/form-task/feature-form-task.module.js"></script>
+    <script src="feature/form-task/form-create-task.directive.js"></script>
+    <script src="feature/form-task/form-task.controller.js"></script>
+    <script src="feature/form-task/task-form.service.js"></script>
+    <script src="feature/header/feature-header.module.js"></script>
+    <script src="feature/header/header-page.directive.js"></script>
+    <script src="feature/header/header.controller.js"></script>
+    <script src="feature/random-generate/feature-random-generate.module.js"></script>
+    <script src="feature/random-generate/random-generate.controller.js"></script>
+    <script src="feature/random-generate/random-generate.directive.js"></script>
+    <script src="feature/random-generate/random-generate.service.js"></script>
+    <script src="feature/rank/feature-rank.module.js"></script>
+    <script src="feature/rank/rank.controller.js"></script>
+    <script src="feature/rank/rank.directive.js"></script>
+    <script src="feature/rank/rank.service.js"></script>
+    <script src="feature/task-table/feature-task-table.module.js"></script>
+    <script src="feature/task-table/list-all-tasks.directive.js"></script>
+    <script src="feature/task-table/table.controller.js"></script>
+    <script src="feature/task-table/task-table.service.js"></script>
+    <script src="feature/time/feature-time.module.js"></script>
+    <script src="feature/time/time.controller.js"></script>
+    <script src="feature/time/time.directive.js"></script>
+    <script src="feature/time/time.service.js"></script>
+    <script src="feature/feature.module.js"></script>
+</body>
+
+</html>

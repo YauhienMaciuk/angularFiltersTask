@@ -1,0 +1,49 @@
+<div class="bg-success" align="center">
+    <form novalidate name="newTask">
+        <div class="form-group">
+            <label for="action">Create New Task</label>
+            <table ng-controller="FormTask as $ctrl">
+                <tr>
+                    <td>Deadline</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="date" max="2026-12-31" id="action" name="action" class="form-control" ng-model="newItem.deadline" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Responsible</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="action" name="action" class="form-control" size="25" maxlength="25" ng-model="newItem.deadlineResponsible" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Est Hours</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="number" min="1" max="24" id="action" name="action" class="form-control" ng-model="newItem.estHours" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Responsible</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="action" name="action" class="form-control" size="25" maxlength="25" ng-model="newItem.estResponsible" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="input-group-btn">
+								<button class="btn btn-default" 
+									ng-disabled="$ctrl.verifyNewItem(newItem)"
+									ng-click="$ctrl.createTask($ctrl.allTasks.items, newItem)">Create</button>
+						</span></td>
+                </tr>
+            </table>
+        </div>
+</div>
+</form>
+</div>

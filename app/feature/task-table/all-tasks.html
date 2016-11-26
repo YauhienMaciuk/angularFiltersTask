@@ -1,0 +1,45 @@
+<div ng-controller="Table as $ctrl">
+    Search task:
+    <input type="text" ng-model="$ctrl.searchTask.deadlineResponsible">
+    <h4>Task List:</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Deadline</th>
+                <th>Deadline Responsible</th>
+                <th>Est Hours</th>
+                <th>Est Responsible</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $ctrl.allTasks.items | limitTo: $ctrl.displayedTasks: $ctrl.valuePaging | filter: $ctrl.doSearchTask | orderBy: 'deadline'">
+                <form>
+                    <td>{{item.deadline}}</td>
+                    <td>{{item.deadlineResponsible}}</td>
+                    <td>{{item.estHours}}</td>
+                    <td>{{item.estResponsible}}</td>
+                    <td>{{$ctrl.statusView(item.status)}}
+                        <button ng-hide="!item.status" ng-click="$ctrl.performTask($ctrl.allTasks.items, item)">Perform</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-default" ng-click="$ctrl.deleteTask($ctrl.allTasks.items, item, $ctrl)">Delete</button>
+                    </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-default" ng-hide="$ctrl.allTasks.items.length === 0 || $ctrl.closedTaskCount($ctrl.allTasks.items) === 0" ng-click="$ctrl.deleteAllClosedTasks($ctrl.allTasks.items)">Delete All Closed Tasks</button>
+    <br>
+    <div class="buttonPage">
+        <div style="float: left;">
+            <button ng-disabled="$ctrl.valuePaging === 0" ng-click="$ctrl.previousPage($ctrl.valuePaging, $ctrl)">prev</button>
+        </div>
+        <div style="float: right;">
+            <button ng-disabled="$ctrl.quantityTasks($ctrl.allTasks.items) < $ctrl.valuePaging + $ctrl.displayedTasks" ng-click="$ctrl.nextPage($ctrl.valuePaging, $ctrl)">next</button>
+        </div>
+    </div>
+    Quality of displayed tasks:
+    <input type="number" ng-model="$ctrl.displayedTasks">
+</div>

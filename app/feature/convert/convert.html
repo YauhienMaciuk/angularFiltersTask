@@ -1,0 +1,7 @@
+<div>
+    Type number :
+    <input type="number" ng-model="enteredNumber">MBt Convert to:
+    <input type="radio" name="KBt" value="KBt" ng-model="value">KBt
+    <input type="radio" name="GBt" value="GBt" ng-model="value">GBt
+    <span text-alight="center" color="blue">{{enteredNumber | convert: enteredNumber: value}}</span>
+</div>

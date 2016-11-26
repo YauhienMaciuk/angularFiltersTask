@@ -1,0 +1,8 @@
+<div ng-controller="Rank as $ctrl" class="bg-info">
+    <label for="action">Put count for rankService:</label>
+    <form novalidate name="rankNumb">
+        <input type="number" name="action" ng-model="rankNumber">
+        <button class="btn btn-default" ng-click="$ctrl.rank(rankNumber, $ctrl)">send</button>
+    </form>
+    {{$ctrl.message}} <font color="red">{{$ctrl.star}}</font>
+</div>
