@@ -5,12 +5,9 @@
         "feature"
     ])
 
-    	.config(appConfig)
+        .config(appConfig)
         .decorator("taskFormSrv", taskCreateLog)
-        .decorator("taskTableSrv", taskPerformLog)
-        .decorator("taskTableSrv", taskDeleteLog)
-        .decorator("taskTableSrv", dateleAllClosedTasksLog)
-        .decorator("taskTableSrv", myLog);
+        .decorator("taskTableSrv", taskTableSrcLog);
 
     function appConfig(rankSrvProvider, longStarMsg) {
         rankSrvProvider.configRank(longStarMsg);

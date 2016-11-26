@@ -4,7 +4,7 @@
         .run(getTasksJson)
         .service("taskTableSrv", taskTableSrv);
 
-    function taskTableSrv() {
+    function taskTableSrv($localStorage) {
 
         return {
             statusView,
@@ -16,8 +16,32 @@
             editTask,
             previousPage,
             nextPage,
-            quantityTasks
+            quantityTasks,
+            lookAllTasks,
+            wrightTasksToJson,
+            getAllTasks
         };
+
+        function lookAllTasks(ctrl) {
+            wrightTasksToJson(ctrl.allTasks);
+            getAllTasks(ctrl.allTasks);
+            ctrl.showAllTasks = true;
+        }
+
+        function wrightTasksToJson(allTasks) {
+            window.localStorage['items'] = angular.toJson(allTasks.items);
+        }
+
+        function getAllTasks(allTasks) {
+            var items = window.localStorage['items'];
+            var arrayTasks = [];
+            var allTasksFromJson = JSON.parse(items);
+            angular.forEach(allTasksFromJson, function(item) {
+                item.deadline = moment(item.deadline, 'MM-DD-YYYY').format('MM-DD-YYYY');
+                arrayTasks.push(item);
+            });
+            allTasks.items = arrayTasks;
+        }
 
         function editTask(items, item, editedItem) {
             editedItem = item;
@@ -57,6 +81,7 @@
         function deleteTask(items, item) {
             var index = items.indexOf(item);
             items.splice(index, 1);
+            window.localStorage['items'] = angular.toJson(items);
         }
 
         function deleteAllClosedTasks(items) {
@@ -71,6 +96,7 @@
             var index = items.indexOf(item);
             item.status = false;
             items.splice(index, 1, item);
+            window.localStorage['items'] = angular.toJson(items);
         }
 
         function closedTaskCount(items) {

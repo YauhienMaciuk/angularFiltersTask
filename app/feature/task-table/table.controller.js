@@ -4,24 +4,32 @@
     angular.module("featureTaskTable")
         .controller("Table", Table);
 
-    function Table(allTasks, taskTableSrv, startValuePaging, displayedTasks) {
+    function Table(allTasks, taskTableSrv, startValuePaging, displayedTasks, showAllTasks) {
         let $ctrl = this;
         $ctrl.allTasks = allTasks;
         $ctrl.valuePaging = startValuePaging;
         $ctrl.displayedTasks = displayedTasks;
+        $ctrl.showAllTasks = showAllTasks;
         Object.assign($ctrl, taskTableSrv);
         $ctrl.doSearchTask = doSearchTask;
 
         function doSearchTask() {
 
-            if (!angular.isUndefined($ctrl.storedItems)) {
-                allTasks.items = $ctrl.storedItems;
+            if (!angular.isUndefined($ctrl.storedPattern)) {
+                let storedPattern = $ctrl.storedPattern;
+                let pattern = $ctrl.searchTask.deadlineResponsible.toUpperCase();
+                if (storedPattern === pattern) {
+                    return allTasks;
+                }
             }
 
             if (!angular.isUndefined($ctrl.searchTask)) {
-                let storedItems = allTasks.items;
-                $ctrl.storedItems = storedItems;
+                taskTableSrv.getAllTasks(allTasks);
                 let pattern = $ctrl.searchTask.deadlineResponsible.toUpperCase();
+
+                let storedPattern = pattern;
+                $ctrl.storedPattern = storedPattern;
+
                 let resultSearch = [];
                 angular.forEach(allTasks.items, function(item) {
                     let deadlineResponsible = item.deadlineResponsible.toUpperCase();
@@ -32,8 +40,6 @@
                 })
 
                 allTasks.items = resultSearch;
-                return allTasks;
-            } else {
                 return allTasks;
             }
         }

@@ -4,8 +4,8 @@
 	angular.module("featureTime")
 		.controller("Time", Time);
 
-		function Time (timeSrv, $interval) {
+		function Time (timeSrv) {
 			let $ctrl = this;
-			$ctrl.time = timeSrv.showTime($interval, $ctrl);
+			$ctrl.time = timeSrv.showTime($ctrl);
 		}
 })();

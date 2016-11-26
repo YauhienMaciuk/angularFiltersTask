@@ -10,6 +10,14 @@ function taskCreateLog($delegate, $log) {
     return $delegate;
 }
 
+function taskTableSrcLog($delegate, $log, appName) {
+    taskPerformLog($delegate, $log);
+    taskDeleteLog($delegate, $log);
+    dateleAllClosedTasksLog($delegate, $log);
+    myLog($delegate, $log, appName);
+    return $delegate;
+}
+
 function taskPerformLog($delegate, $log) {
 
     let performTask = $delegate.performTask;

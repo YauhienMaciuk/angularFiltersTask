@@ -1,5 +1,5 @@
 (function() {
     "use strict";
-    angular.module("featureTaskTable", []);
+    angular.module("featureTaskTable", ["ngStorage"]);
 
 })();

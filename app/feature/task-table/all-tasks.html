@@ -1,6 +1,8 @@
 <div ng-controller="Table as $ctrl">
+    <button class="btn btn-default" ng-hide="$ctrl.showAllTasks" ng-click="$ctrl.lookAllTasks($ctrl)">Look all tasks</button>
     Search task:
     <input type="text" ng-model="$ctrl.searchTask.deadlineResponsible">
+    <div ng-if="$ctrl.showAllTasks">
     <h4>Task List:</h4>
     <table class="table table-striped">
         <thead>
@@ -42,4 +44,5 @@
     </div>
     Quality of displayed tasks:
     <input type="number" ng-model="$ctrl.displayedTasks">
+</div>
 </div>
