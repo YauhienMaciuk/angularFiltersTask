@@ -4,7 +4,7 @@
         .run(getTasksJson)
         .service("taskTableSrv", taskTableSrv);
 
-    function taskTableSrv($localStorage) {
+    function taskTableSrv($localStorage, allTasks) {
 
         return {
             statusView,
@@ -19,20 +19,27 @@
             quantityTasks,
             lookAllTasks,
             wrightTasksToJson,
-            getAllTasks
+            getAllTasks,
+            parseJson,
+            searchTaskAfterParse
         };
 
         function lookAllTasks(ctrl) {
-            wrightTasksToJson(ctrl.allTasks);
-            getAllTasks(ctrl.allTasks);
-            ctrl.showAllTasks = true;
+            wrightTasksToJson();
+            getAllTasks(ctrl);
         }
 
-        function wrightTasksToJson(allTasks) {
+        function wrightTasksToJson() {
             window.localStorage['items'] = angular.toJson(allTasks.items);
         }
 
-        function getAllTasks(allTasks) {
+        function getAllTasks(ctrl) {
+            allTasks.items = parseJson();
+            ctrl.allTasks = allTasks;
+            ctrl.showAllTasks = true;
+        }
+
+        function parseJson() {
             var items = window.localStorage['items'];
             var arrayTasks = [];
             var allTasksFromJson = JSON.parse(items);
@@ -40,7 +47,7 @@
                 item.deadline = moment(item.deadline, 'MM-DD-YYYY').format('MM-DD-YYYY');
                 arrayTasks.push(item);
             });
-            allTasks.items = arrayTasks;
+            return arrayTasks;
         }
 
         function editTask(items, item, editedItem) {
@@ -62,41 +69,69 @@
             }
         }
 
-        function previousPage(valuePaging, $ctrl) {
-            valuePaging = valuePaging - 4;
-            $ctrl.valuePaging = valuePaging;
+        function previousPage(valuePaging, ctrl) {
+            valuePaging = valuePaging - ctrl.displayedTasks;
+            ctrl.valuePaging = valuePaging;
         }
 
-        function nextPage(valuePaging, $ctrl) {
-            valuePaging = valuePaging + 4;
-            $ctrl.valuePaging = valuePaging;
+        function nextPage(valuePaging, ctrl) {
+            valuePaging = valuePaging + ctrl.displayedTasks;
+            ctrl.valuePaging = valuePaging;
         }
 
 
-        function quantityTasks(items) {
-            let quantity = items.length;
+        function quantityTasks() {
+            let quantity = allTasks.items.length;
             return quantity;
         }
 
-        function deleteTask(items, item) {
-            var index = items.indexOf(item);
-            items.splice(index, 1);
-            window.localStorage['items'] = angular.toJson(items);
+        function deleteTask(item, ctrl) {
+            let itemsAllTasks = allTasks.items;
+            let indexItemsAllTasks = itemsAllTasks.indexOf(item);
+            let parsedItems = parseJson();
+
+            let index = searchTaskAfterParse(parsedItems, item);
+            parsedItems.splice(index, 1);
+            itemsAllTasks.splice(indexItemsAllTasks, 1);
+            window.localStorage['items'] = angular.toJson(parsedItems);
+            if(allTasks.items.length === 0) {
+                allTasks.items = parseJson();
+                ctrl.searchTask.deadlineResponsible = "";
+            }
         }
 
-        function deleteAllClosedTasks(items) {
+        function searchTaskAfterParse(parsedItems, item) {
+            let index;
+            angular.forEach(parsedItems, function(parsedItem) {
+                if (parsedItem.deadline === item.deadline 
+                    && parsedItem.deadlineResponsible === item.deadlineResponsible 
+                    && parsedItem.estResponsible === item.estResponsible 
+                    && parsedItem.estHours === item.estHours) {
+                    index = parsedItems.indexOf(parsedItem);
+                }
+            })
+            return index;
+        }
+
+        function deleteAllClosedTasks(ctrl) {
+            let items = allTasks.items;
             angular.forEach(items, function(item) {
                 if (item.status === false) {
-                    deleteTask(items, item);
+                    deleteTask(item, ctrl);
                 }
             });
         }
 
-        function performTask(items, item) {
-            var index = items.indexOf(item);
+        function performTask(item) {
+            let itemsAllTasks = allTasks.items;
+            var indexItemsAllTasks = itemsAllTasks.indexOf(item);
+            let parsedItems = parseJson();
+            let index = searchTaskAfterParse(parsedItems, item);
             item.status = false;
-            items.splice(index, 1, item);
-            window.localStorage['items'] = angular.toJson(items);
+            itemsAllTasks.splice(indexItemsAllTasks, 1, item);
+            parsedItems.splice(index, 1, item);
+
+            window.localStorage['items'] = angular.toJson(parsedItems);
         }
 
         function closedTaskCount(items) {

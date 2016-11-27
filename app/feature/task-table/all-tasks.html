@@ -1,48 +1,48 @@
 <div ng-controller="Table as $ctrl">
     <button class="btn btn-default" ng-hide="$ctrl.showAllTasks" ng-click="$ctrl.lookAllTasks($ctrl)">Look all tasks</button>
-    Search task:
-    <input type="text" ng-model="$ctrl.searchTask.deadlineResponsible">
-    <div ng-if="$ctrl.showAllTasks">
-    <h4>Task List:</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Deadline</th>
-                <th>Deadline Responsible</th>
-                <th>Est Hours</th>
-                <th>Est Responsible</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in $ctrl.allTasks.items | limitTo: $ctrl.displayedTasks: $ctrl.valuePaging | filter: $ctrl.doSearchTask | orderBy: 'deadline'">
-                <form>
-                    <td>{{item.deadline}}</td>
-                    <td>{{item.deadlineResponsible}}</td>
-                    <td>{{item.estHours}}</td>
-                    <td>{{item.estResponsible}}</td>
-                    <td>{{$ctrl.statusView(item.status)}}
-                        <button ng-hide="!item.status" ng-click="$ctrl.performTask($ctrl.allTasks.items, item)">Perform</button>
-                    </td>
-                    <td>
-                        <button class="btn btn-default" ng-click="$ctrl.deleteTask($ctrl.allTasks.items, item, $ctrl)">Delete</button>
-                    </td>
-                </form>
-            </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-default" ng-hide="$ctrl.allTasks.items.length === 0 || $ctrl.closedTaskCount($ctrl.allTasks.items) === 0" ng-click="$ctrl.deleteAllClosedTasks($ctrl.allTasks.items)">Delete All Closed Tasks</button>
-    <br>
-    <div class="buttonPage">
-        <div style="float: left;">
-            <button ng-disabled="$ctrl.valuePaging === 0" ng-click="$ctrl.previousPage($ctrl.valuePaging, $ctrl)">prev</button>
+    <div ng-hide="!$ctrl.showAllTasks">
+        Search task:
+        <input type="text" ng-model="$ctrl.searchTask.deadlineResponsible">
+        <h4>Task List:</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Deadline</th>
+                    <th>Deadline Responsible</th>
+                    <th>Est Hours</th>
+                    <th>Est Responsible</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $ctrl.allTasks.items | orderBy: 'deadline' | limitTo: $ctrl.displayedTasks: $ctrl.valuePaging | filter: $ctrl.doSearchTask">
+                    <form>
+                        <td width="15%">{{item.deadline}}</td>
+                        <td width="20%">{{item.deadlineResponsible}}</td>
+                        <td width="10%">{{item.estHours}}</td>
+                        <td width="20%">{{item.estResponsible}}</td>
+                        <td width="20%">{{$ctrl.statusView(item.status)}}
+                            <button ng-hide="!item.status" ng-click="$ctrl.performTask(item)">Perform</button>
+                        </td>
+                        <td width="15%">
+                            <button class="btn btn-default" ng-click="$ctrl.deleteTask(item, $ctrl)">Delete</button>
+                        </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-default" ng-hide="$ctrl.allTasks.items.length === 0 || $ctrl.closedTaskCount($ctrl.allTasks.items) === 0" ng-click="$ctrl.deleteAllClosedTasks($ctrl)">Delete All Closed Tasks</button>
+        <br>
+        <div class="buttonPage">
+            <div style="float: left;">
+                <button ng-disabled="$ctrl.valuePaging === 0" ng-click="$ctrl.previousPage($ctrl.valuePaging, $ctrl)">prev</button>
+            </div>
+            <div style="float: right;">
+                <button ng-disabled="$ctrl.quantityTasks() <= $ctrl.valuePaging + $ctrl.displayedTasks" ng-click="$ctrl.nextPage($ctrl.valuePaging, $ctrl)">next</button>
+            </div>
         </div>
-        <div style="float: right;">
-            <button ng-disabled="$ctrl.quantityTasks($ctrl.allTasks.items) < $ctrl.valuePaging + $ctrl.displayedTasks" ng-click="$ctrl.nextPage($ctrl.valuePaging, $ctrl)">next</button>
-        </div>
+        Quality of displayed tasks:
+        <input type="number" ng-model="$ctrl.displayedTasks">
     </div>
-    Quality of displayed tasks:
-    <input type="number" ng-model="$ctrl.displayedTasks">
-</div>
 </div>
