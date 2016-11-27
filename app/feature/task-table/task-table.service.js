@@ -88,26 +88,26 @@
         function deleteTask(item, ctrl) {
             let itemsAllTasks = allTasks.items;
             let indexItemsAllTasks = itemsAllTasks.indexOf(item);
-            let parsedItems = parseJson();
+            let itemsFromLocalStorage = parseJson();
 
-            let index = searchTaskAfterParse(parsedItems, item);
-            parsedItems.splice(index, 1);
+            let index = searchTaskAfterParse(itemsFromLocalStorage, item);
+            itemsFromLocalStorage.splice(index, 1);
             itemsAllTasks.splice(indexItemsAllTasks, 1);
-            window.localStorage['items'] = angular.toJson(parsedItems);
+            window.localStorage['items'] = angular.toJson(itemsFromLocalStorage);
             if(allTasks.items.length === 0) {
                 allTasks.items = parseJson();
                 ctrl.searchTask.deadlineResponsible = "";
             }
         }
 
-        function searchTaskAfterParse(parsedItems, item) {
+        function searchTaskAfterParse(itemsFromLocalStorage, item) {
             let index;
-            angular.forEach(parsedItems, function(parsedItem) {
+            angular.forEach(itemsFromLocalStorage, function(parsedItem) {
                 if (parsedItem.deadline === item.deadline 
                     && parsedItem.deadlineResponsible === item.deadlineResponsible 
                     && parsedItem.estResponsible === item.estResponsible 
                     && parsedItem.estHours === item.estHours) {
-                    index = parsedItems.indexOf(parsedItem);
+                    index = itemsFromLocalStorage.indexOf(parsedItem);
                 }
             })
             return index;
@@ -125,13 +125,13 @@
         function performTask(item) {
             let itemsAllTasks = allTasks.items;
             var indexItemsAllTasks = itemsAllTasks.indexOf(item);
-            let parsedItems = parseJson();
-            let index = searchTaskAfterParse(parsedItems, item);
+            let itemsFromLocalStorage = parseJson();
+            let index = searchTaskAfterParse(itemsFromLocalStorage, item);
             item.status = false;
             itemsAllTasks.splice(indexItemsAllTasks, 1, item);
-            parsedItems.splice(index, 1, item);
+            itemsFromLocalStorage.splice(index, 1, item);
 
-            window.localStorage['items'] = angular.toJson(parsedItems);
+            window.localStorage['items'] = angular.toJson(itemsFromLocalStorage);
         }
 
         function closedTaskCount(items) {
